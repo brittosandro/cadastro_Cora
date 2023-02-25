@@ -7,7 +7,7 @@ import pandas as pd
 def enviar_email(email, nome, sobrenome, matricula, serie, turma, curso):
     server = smtplib.SMTP('smtp.gmail.com', 587)
     server.starttls()
-    server.login("sandro.brito.escola@gmail.com", "luaterra1987")
+    server.login("nome@gmail.com", "senha")
     msg = f"Olá {nome} {sobrenome},\n\nSegue abaixo os dados preenchidos no formulário:\n\nNome: {nome}\nSobrenome: {sobrenome}\nMatrícula: {matricula}\nSérie: {serie}\nTurma: {turma}\nCurso selecionado: {curso}\n\nObrigado por se inscrever no Colégio Estadual Cora Coralina."
     server.sendmail("seu_email@gmail.com", email, msg)
     server.quit()
