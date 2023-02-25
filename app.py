@@ -27,7 +27,7 @@ with col1:
     st.title('Formulário de Cadastro')
     st.subheader('Colégio Estadual Cora Coralina')
 with col2:
-    st.image('https://i.imgur.com/PrmavfZ.png', width=60)
+    st.image('logo_cora.png', width=60)
 
 
 # Campos para entrada de dados
