@@ -69,3 +69,8 @@ if submit_button:
 
         # Salva os dados do DataFrame em um arquivo Excel
         df.to_excel('dados.xlsx', index=False)
+        
+        # Adiciona botão para download da tabela
+        output = base64.b64encode(df.to_excel(index=False, encoding='utf-8')).decode('utf-8')
+        download_button_str = f'<a href="data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,{output}" download="dados.xlsx">Download Tabela</a>'
+        st.markdown(download_button_str, unsafe_allow_html=True)
