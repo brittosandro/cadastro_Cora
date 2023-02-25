@@ -2,6 +2,8 @@ import streamlit as st
 import re
 import smtplib
 import pandas as pd
+import base64
+import io
 
 # Função para enviar email com os dados preenchidos
 def enviar_email(email, nome, sobrenome, matricula, serie, turma, curso):
@@ -71,6 +73,10 @@ if submit_button:
         df.to_excel('dados.xlsx', index=False)
         
         # Adiciona botão para download da tabela
-        output = base64.b64encode(df.to_excel(index=False, encoding='utf-8')).decode('utf-8')
-        download_button_str = f'<a href="data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,{output}" download="dados.xlsx">Download Tabela</a>'
+        # Adiciona botão para download da tabela
+        with io.BytesIO() as buffer:
+            with pd.ExcelWriter(buffer, engine='openpyxl') as writer:
+                df.to_excel(writer, index=False)
+            b64 = base64.b64encode(buffer.getvalue()).decode()
+        download_button_str = f'<a href="data:application/octet-stream;base64,{b64}" download="dados.xlsx">Download Tabela</a>'
         st.markdown(download_button_str, unsafe_allow_html=True)
