@@ -5,6 +5,14 @@ import pandas as pd
 import base64
 import io
 
+
+def salvar_dados(nome, sobrenome, matricula, email, serie, turma, curso):
+    novo_registro = [nome, sobrenome, matricula, email, serie, turma, curso]
+    with open('dados.csv', 'a') as arquivo:
+        writer = csv.writer(arquivo)
+        writer.writerow(novo_registro)
+
+
 # Função para enviar email com os dados preenchidos
 def enviar_email(email, nome, sobrenome, matricula, serie, turma, curso):
     server = smtplib.SMTP('smtp.gmail.com', 587)
@@ -71,6 +79,8 @@ if submit_button:
 
         # Salva os dados do DataFrame em um arquivo Excel
         df.to_excel('dados.xlsx', index=False)
+        
+        salvar_dados(nome, sobrenome, matricula, email, serie, turma, curso_selecionado)
         
         # Adiciona botão para download da tabela
         # Adiciona botão para download da tabela
