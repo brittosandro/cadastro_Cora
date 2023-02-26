@@ -1,6 +1,10 @@
 import sqlite3
 import streamlit as st
+import pandas as pd
+import csv
 import re
+import base64
+
 
 # Função para validar o formato do email
 def validar_email(email):
@@ -43,6 +47,20 @@ if submit_button:
                     (nome, sobrenome, matricula, email, serie, turma, curso_selecionado))
         conn.commit()
         st.success('Dados enviados com sucesso!')
+        
+        # Ler os dados do banco de dados usando pandas
+        df = pd.read_sql_query("SELECT * from usuarios", conn)
 
-# Fecha a conexão com o banco de dados
-conn.close()
+        # Exibir os dados em uma tabela
+        st.write(df)
+
+        # Botão para baixar os dados como um arquivo CSV
+        def download_csv(df):
+            csvfile = df.to_csv(index=False)
+            b64 = base64.b64encode(csvfile.encode()).decode()
+            href = f'<a href="data:file/csv;base64,{b64}" download="usuarios.csv">Download CSV</a>'
+            st.markdown(href, unsafe_allow_html=True)
+
+        download_csv(df)
+        # Fecha a conexão com o banco de dados
+        conn.close()
