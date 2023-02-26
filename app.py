@@ -70,7 +70,6 @@ if submit_button:
             st.markdown(href, unsafe_allow_html=True)
 
         download_csv(df)
-        
+
         # Fecha a conexão com o banco de dados
         conn.close()
-
