@@ -4,6 +4,7 @@ import smtplib
 import pandas as pd
 import base64
 import io
+import csv
 
 
 def salvar_dados(nome, sobrenome, matricula, email, serie, turma, curso):
