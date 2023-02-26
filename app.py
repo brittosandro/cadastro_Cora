@@ -19,7 +19,7 @@ conn = sqlite3.connect('usuarios.db')
 # Cria uma tabela para armazenar os dados do usuário
 conn.execute('''CREATE TABLE IF NOT EXISTS usuarios
                 (nome TEXT, sobrenome TEXT, matricula TEXT,
-                email TEXT, serie TEXT, turma TEXT, curso TEXT, cadastro TEXT)''')
+                email TEXT, serie TEXT, turma TEXT, curso TEXT, situação TEXT)''')
 
 col1, col2 = st.columns([1, 0.4,])
 with col1:
