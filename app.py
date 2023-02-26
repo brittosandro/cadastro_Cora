@@ -18,10 +18,15 @@ conn = sqlite3.connect('usuarios.db')
 
 # Cria uma tabela para armazenar os dados do usuário
 conn.execute('''CREATE TABLE IF NOT EXISTS usuarios
-                (nome TEXT, sobrenome TEXT, matricula TEXT, email TEXT, serie TEXT, turma TEXT, curso TEXT)''')
+                (nome TEXT, sobrenome TEXT, matricula TEXT,
+                email TEXT, serie TEXT, turma TEXT, curso TEXT, cadastro TEXT)''')
 
-# Título do aplicativo
-st.title('Formulário de Inscrição')
+col1, col2 = st.columns([1, 0.4,])
+with col1:
+    st.title('Formulário de Cadastro')
+    st.subheader('Colégio Estadual Cora Coralina')
+with col2:
+    st.image('logo_cora.png', width=190)
 
 # Campos para entrada de dados
 with st.form('my_form'):
@@ -35,7 +40,9 @@ with st.form('my_form'):
         serie = st.text_input('Série')
         turma = st.text_input('Turma')
         st.subheader('Curso')
-        cursos = ['Curso 1', 'Curso 2', 'Curso 3', 'Curso 4', 'Curso 5', 'Curso 6']
+        cursos = ['Auxiliar Financeiro', 'Auxiliar Administrativo',
+                  'Auxiliar Agroecologia', 'Auxiliar Agropecuária',
+                  'Assistente de Logística', 'Vendedor']
         curso_selecionado = st.radio('Selecione um curso:', cursos)
     # Botão de envio
     submit_button = st.form_submit_button(label='Enviar')
@@ -43,11 +50,12 @@ with st.form('my_form'):
 # Insere os dados do usuário no banco de dados
 if submit_button:
     if validar_email(email):
-        conn.execute("INSERT INTO usuarios VALUES (?, ?, ?, ?, ?, ?, ?)",
-                    (nome, sobrenome, matricula, email, serie, turma, curso_selecionado))
+        conn.execute("INSERT INTO usuarios VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                    (nome, sobrenome, matricula, email, serie,
+                    turma, curso_selecionado, 'cadastrado'))
         conn.commit()
         st.success('Dados enviados com sucesso!')
-        
+
         # Ler os dados do banco de dados usando pandas
         df = pd.read_sql_query("SELECT * from usuarios", conn)
 
@@ -62,5 +70,7 @@ if submit_button:
             st.markdown(href, unsafe_allow_html=True)
 
         download_csv(df)
+        
         # Fecha a conexão com o banco de dados
         conn.close()
+
